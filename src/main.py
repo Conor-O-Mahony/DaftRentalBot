@@ -221,6 +221,6 @@ class Apply(SetUp):
         # Wait 10 seconds till you apply for the next one
         sleep(10)
 
-
-run = Apply()
-run.apply()
+if __name__ == "__main__":
+    run = Apply()
+    run.apply()
