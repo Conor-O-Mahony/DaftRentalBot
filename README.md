@@ -35,6 +35,13 @@ cd DaftRentalBot
 pip install -r requirements.txt
 ```
 
+To fix Chrome driver error:
+
+```bash
+pip install webdriver-manager --upgrade
+pip install packaging
+```
+
 ## Usage
 
 -   **Step 1:** To use DaftRentalBot, you will need to have a Daft account and provide your login credentials in the `.env` file. You will also need to specify your search filters in the `.env` file. You can do so by editing [this](.env) file.
