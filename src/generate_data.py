@@ -44,22 +44,18 @@ class GenerateLink:
 
     def city_filter_link(self):
         try:
-            city_name = eval(os.environ.get("city_name"))
-            if not isinstance(city_name, list):
-                raise DaftRentalBotCityList
-            if not all(isinstance(item, str) for item in city_name):
-                raise DaftRentalBotCityStr
-            if not all(item in available_cities for item in city_name):
+            city_name = eval(os.environ.get("centerpoint"))
+            radius = eval(os.environ.get("radius_around_centerpoint"))
+            if not isinstance(city_name, str):
+                raise DaftRentalBotCityString
+            if not isinstance(radius, str):
+                raise DaftRentalBotRadiusString
+            if not city_name in available_cities:
                 raise DaftRentalBotInvalidCity
-            if len(city_name) == 1:
-                self.link = f"https://www.daft.ie/property-for-rent/{city_name[0]}"
-            elif not city_name:
-                self.link += ""
-            else:
-                self.link += "?"
-                for item in city_name:
-                    self.link += f"location={item}&"
-                self.link = self.link[:-1]
+            if not radius in available_radius:
+                raise DaftRentalBotInvalidRadius
+            self.link = f"https://www.daft.ie/property-for-rent/{city_name}?radius={radius}"
+
         except NameError:
             print("Searching rental places for Ireland as no specific city provided.")
 

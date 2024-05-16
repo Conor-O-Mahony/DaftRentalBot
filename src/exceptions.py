@@ -1,14 +1,17 @@
-class DaftRentalBotCityList(Exception):
-    """city_name should be of type List."""
+class DaftRentalBotCityString(Exception):
+    """city_name should be of type str."""
 
+class DaftRentalBotRadiusString(Exception):
+    """radius should be of type str."""
 
 class DaftRentalBotCityStr(Exception):
-    """Each item inside city_name should be of type String."""
-
+    """city_name should be of type String."""
 
 class DaftRentalBotInvalidCity(Exception):
-    """Each item inside city_name shold be a part of available_cities"""
+    """city_name should be a part of available_cities"""
 
+class DaftRentalBotInvalidRadius(Exception):
+    """radius should be a part of available_radius"""
 
 class DaftRentalBotFacilitiesList(Exception):
     """facilities should be of type List."""

@@ -4,6 +4,8 @@ available_beds = list(range(1, 16))
 available_bath = list(range(1, 6))
 available_facilities = ["pets-allowed", "parking"]
 
+available_radius = ["0","1000","3000","5000","10000","20000"]
+
 available_cities = [
     "abbey-galway",
     "abbeydorney-kerry",
