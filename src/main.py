@@ -64,12 +64,12 @@ class SetUp:
         sleep(3)
         # Checking if error occured after login
         try:
-            self.driver.find_element(By.XPATH, "/html/body/div[1]/div/div[2]")
-            raise DaftRentalBotLoginError(
-                "Incorrect username or password. Please try again."
-            )
+            login_error = self.driver.find_element(By.CLASS_NAME, "login__alert--error")
         except:
-            pass
+            print("No error in login.")
+
+        if 'login_error' in vars():
+            raise DaftRentalBotLoginError
 
         print("Logged in successfully!")
 
