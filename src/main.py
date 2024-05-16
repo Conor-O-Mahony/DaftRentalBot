@@ -20,7 +20,9 @@ class SetUp:
         self.SECRET_ID = os.environ.get("secretUser")
         self.SECRET_PASSWORD = os.environ.get("secretPassword")
         self.SECRET_NAME = os.environ.get("secretName")
+        self.SECRET_FIRSTNAME, self.SECRET_LASTNAME = self.SECRET_NAME.split(" ")
         self.SECRET_CONTACT = os.environ.get("secretContact")
+        self.SECRET_NUMBER = int(os.environ.get("secretNumberOfPeople"))
         self.SECRET_MESSAGE = os.environ.get("secretMessage")
 
         # Create new csv file to log submissions
@@ -36,12 +38,12 @@ class SetUp:
         self.driver.maximize_window()
         # Policy Button
         self.driver.find_element(
-            By.XPATH, '//*[@id="js-cookie-modal-level-one"]/div/main/div/button[2]'
+            By.XPATH, '//*[@id="didomi-notice-agree-button"]'
         ).click()
         sleep(3)
         # Sign-in Button
         self.driver.find_element(
-            By.XPATH, '//*[@id="__next"]/div[2]/header/div/div[2]/div[3]/ul/li[2]/a'
+            By.XPATH, "/html/body/div[2]/div[2]/header/div/div[2]/div[3]/ul/li/a"
         ).click()
         sleep(3)
         # EmailID field
@@ -56,14 +58,18 @@ class SetUp:
         sleep(3)
         # Sign-in button
         self.driver.find_element(
-            By.XPATH, '//*[@id="kc-login-form"]/div[2]/input'
+            By.XPATH, "/html/body/div[1]/div/div[5]/div/form/div[2]/div[1]/input"
         ).click()
 
+        sleep(3)
         # Checking if error occured after login
-        if self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]"):
+        try:
+            self.driver.find_element(By.XPATH, "/html/body/div[1]/div/div[2]")
             raise DaftRentalBotLoginError(
                 "Incorrect username or password. Please try again."
             )
+        except:
+            pass
 
         print("Logged in successfully!")
 
@@ -120,12 +126,18 @@ class Apply(SetUp):
 
         sleep(3)
         self.applied_url = self.driver.current_url
+        try:
+            self.driver.find_element(By.XPATH,'/html/body/div[2]/main/div[3]/div[1]/div[1]/div/div[2]/h1')
+        except:
+            print("Can only apply on website")
+            return
+
         log_address = self.driver.find_element(
-            By.XPATH, '//*[@id="__next"]/main/div[3]/div[1]/div[1]/div/div[2]/h1'
+            By.XPATH, '/html/body/div[2]/main/div[3]/div[1]/div[1]/div/div[2]/h1'
         ).text
         log_price = self.driver.find_element(
             By.XPATH,
-            '//*[@id="__next"]/main/div[3]/div[1]/div[1]/div/div[2]/div[1]/span',
+            '/html/body/div[2]/main/div[3]/div[1]/div[1]/div/div[2]/div[1]/h2',
         ).text
         log_price = "EUR " + log_price[1:]
         log_entry = [log_price, log_address, self.applied_url, "Applied"]
@@ -140,33 +152,50 @@ class Apply(SetUp):
         ).click()
         sleep(3)
         self.checkFeedback()
+
+        try:
+            self.driver.find_element(By.XPATH, '/html/body/div[10]/div/div/div[2]/div[3]/div')
+            print("Already applied!")
+            return
+        except:
+            pass
+
         # Enter First Name
         self.driver.find_element(By.XPATH, '//*[@id="keyword1"]').send_keys(
-            self.SECRET_NAME
+            self.SECRET_FIRSTNAME
         )
         self.checkFeedback()
         # Enter Email-ID
         self.driver.find_element(By.XPATH, '//*[@id="keyword2"]').send_keys(
-            self.SECRET_ID
+            self.SECRET_LASTNAME
         )
         self.checkFeedback()
         # Enter Contact Number
         self.driver.find_element(By.XPATH, '//*[@id="keyword3"]').send_keys(
-            self.SECRET_CONTACT
+            self.SECRET_ID
         )
         self.checkFeedback()
         # Enter Application text
+        self.driver.find_element(By.XPATH, '//*[@id="keyword4"]').send_keys(
+            self.SECRET_CONTACT
+        )
+        self.checkFeedback()
         self.driver.find_element(By.XPATH, '//*[@id="message"]').send_keys(
             self.SECRET_MESSAGE
         )
-
         self.checkFeedback()
+
+        for i in range(self.SECRET_NUMBER-1):
+            self.driver.find_element(
+                By.XPATH, '/html/body/div[10]/div/div/div[2]/form/div/div[5]/div/div/div/button[2]'
+            ).click()
+        
 
         sleep(5)
 
         # Send the applicaiton
         self.driver.find_element(
-            By.XPATH, '//*[@id="contact-form-modal"]/div[2]/form/div/div[5]/div/button'
+            By.XPATH, '/html/body/div[10]/div/div/div[2]/form/div/div[9]/div/button'
         ).click()
         sleep(2)
 

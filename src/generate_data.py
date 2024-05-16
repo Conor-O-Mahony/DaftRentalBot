@@ -38,6 +38,7 @@ class GenerateLink:
         self.bed_filter_link()
         self.bath_filter_link()
         self.facilities_filter_link()
+        self.date_filter_link()
 
         print("Final link is: ", self.link)
         return self.link
@@ -136,3 +137,6 @@ class GenerateLink:
                     self.link += f"&facilities={item}"
         except NameError:
             print("No facilities provided.")
+
+    def date_filter_link(self):
+        self.link += "&sort=publishDateDesc"
