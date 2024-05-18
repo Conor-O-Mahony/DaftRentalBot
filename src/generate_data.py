@@ -124,6 +124,8 @@ class GenerateLink:
         available_facilities = ["pets-allowed", "parking"]
         try:
             facilities_name = os.environ.get("facilities")
+            if facilities_name is None:
+                return
             if not isinstance(facilities_name, list):
                 raise DaftRentalBotFacilitiesList
             if not all(isinstance(item, str) for item in facilities_name):
