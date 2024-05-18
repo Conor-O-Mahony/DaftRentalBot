@@ -45,8 +45,8 @@ class GenerateLink:
 
     def city_filter_link(self):
         try:
-            city_name = eval(os.environ.get("centerpoint"))
-            radius = eval(os.environ.get("radius_around_centerpoint"))
+            city_name = os.environ.get("centerpoint")
+            radius = os.environ.get("radius_around_centerpoint")
             if not isinstance(city_name, str):
                 raise DaftRentalBotCityString
             if not isinstance(radius, str):
@@ -62,7 +62,7 @@ class GenerateLink:
 
     def price_filter_link(self):
         try:
-            min_price = eval(os.environ.get("min_price"))
+            min_price = os.environ.get("min_price")
             if isinstance(min_price, str):
                 min_price = int(min_price)
             min_price = min(available_price, key=lambda x: abs(x - min_price))
@@ -71,7 +71,7 @@ class GenerateLink:
             min_price = min(available_price)
 
         try:
-            max_price = eval(os.environ.get("max_price"))
+            max_price = os.environ.get("max_price")
             if isinstance(max_price, str):
                 max_price = int(max_price)
             max_price = min(available_price, key=lambda x: abs(x - max_price))
@@ -82,7 +82,7 @@ class GenerateLink:
 
     def bath_filter_link(self):
         try:
-            min_bed = eval(os.environ.get("min_bed"))
+            min_bed = os.environ.get("min_bed")
             if isinstance(min_bed, str):
                 min_bed = int(min_bed)
             min_bed = min(available_beds, key=lambda x: abs(x - min_bed))
@@ -91,7 +91,7 @@ class GenerateLink:
             min_bed = min(available_beds)
 
         try:
-            max_bed = eval(os.environ.get("max_bed"))
+            max_bed = os.environ.get("max_bed")
             if isinstance(max_bed, str):
                 max_bed = int(max_bed)
             max_bed = min(available_beds, key=lambda x: abs(x - max_bed))
@@ -102,7 +102,7 @@ class GenerateLink:
 
     def bed_filter_link(self):
         try:
-            min_bath = eval(os.environ.get("min_bath"))
+            min_bath = os.environ.get("min_bath")
             if isinstance(min_bath, str):
                 min_bath = int(min_bath)
             min_bath = min(available_beds, key=lambda x: abs(x - min_bath))
@@ -111,7 +111,7 @@ class GenerateLink:
             min_bath = min(available_bath)
 
         try:
-            max_bath = eval(os.environ.get("max_bath"))
+            max_bath = os.environ.get("max_bath")
             if isinstance(max_bath, str):
                 max_bath = int(max_bath)
             max_bath = min(available_beds, key=lambda x: abs(x - max_bath))
@@ -123,7 +123,7 @@ class GenerateLink:
     def facilities_filter_link(self):
         available_facilities = ["pets-allowed", "parking"]
         try:
-            facilities_name = eval(os.environ.get("facilities"))
+            facilities_name = os.environ.get("facilities")
             if not isinstance(facilities_name, list):
                 raise DaftRentalBotFacilitiesList
             if not all(isinstance(item, str) for item in facilities_name):

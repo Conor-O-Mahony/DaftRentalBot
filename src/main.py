@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
 from exceptions import DaftRentalBotLoginError
 from generate_data import GenerateLink
@@ -29,16 +30,22 @@ class SetUp:
         self.file = open("logger.csv", "a")
         self.writer = csv.writer(self.file)
 
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--window-size=1440,900')  
+        chrome_options.add_argument('--headless')
+        user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
+        chrome_options.add_argument(f'user-agent={user_agent}')
+
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
 
     def login(self):
         self.driver.get("http://www.daft.ie")
         sleep(3)
 
-        self.driver.maximize_window()
         # Policy Button
         self.driver.find_element(
-            By.XPATH, '//*[@id="didomi-notice-agree-button"]'
+            By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[3]/button[2]'
         ).click()
         sleep(3)
         # Sign-in Button
