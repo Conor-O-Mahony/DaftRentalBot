@@ -37,7 +37,7 @@ class SetUp:
         user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
         chrome_options.add_argument(f'user-agent={user_agent}')
 
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
+        self.driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver',options=chrome_options)
 
     def login(self):
         self.driver.get("http://www.daft.ie")
